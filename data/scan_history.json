@@ -1,0 +1,70 @@
+[
+    {
+        "date": "23-06-2026 13:02",
+        "disease": "Tomato_Late_blight",
+        "confidence": 58.16,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:59",
+        "disease": "Tomato_Late_blight",
+        "confidence": 72.94,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:54",
+        "disease": "Tomato_Late_blight",
+        "confidence": 72.94,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:53",
+        "disease": "Tomato_Late_blight",
+        "confidence": 72.94,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:53",
+        "disease": "Tomato_Late_blight",
+        "confidence": 72.94,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:42",
+        "disease": "Tomato_Late_blight",
+        "confidence": 72.94,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:31",
+        "disease": "Tomato_Late_blight",
+        "confidence": 72.94,
+        "treatment": "Apply fungicide immediately and remove infected plants.",
+        "prevention": "Reduce moisture and improve air circulation.",
+        "recovery": "3-4 weeks"
+    },
+    {
+        "date": "23-06-2026 12:11",
+        "disease": "Tomato_Septoria_leaf_spot",
+        "confidence": 27.17,
+        "treatment": "Apply chlorothalonil fungicide and remove infected leaves.",
+        "prevention": "Use disease-free seeds and avoid splashing water.",
+        "recovery": "2-4 weeks"
+    },
+    {
+        "disease": "Tomato_Leaf_Mold",
+        "confidence": 95.45
+    }
+]
