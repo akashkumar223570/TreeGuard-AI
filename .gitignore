@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+
+.env
+
+treeguard_report.pdf
+
+data/scan_history.json
+
+.venv/
+venv/

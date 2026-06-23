@@ -20,6 +20,9 @@ from services.pdf_report import (
 )
 from services.voice import generate_voice
 
+from services.ai_doctor import (
+    ask_ai_doctor
+)
 # ----------------------------------------------------
 # PAGE CONFIG
 # ----------------------------------------------------
@@ -258,7 +261,6 @@ if uploaded_file:
 
                 st.audio(audio_file)
 
-
 # ----------------------------------------------------
 # ANALYTICS
 # ----------------------------------------------------
@@ -339,21 +341,95 @@ else:
     )
 # ----------------------------------------------------
 # AI DOCTOR
-# ----------------------------------------------------
 
 st.markdown("---")
 
 st.subheader("🤖 AI Doctor")
 
-user_query = st.text_input(
-    "Ask about plant diseases..."
-)
+# Show detected disease
+if "result" in st.session_state:
 
-if user_query:
+    detected_disease = (
+        st.session_state.result["disease"]
+    )
 
     st.info(
-        "Gemini AI Integration Coming Next Step"
+        f"Detected Disease: {detected_disease}"
     )
+
+else:
+
+    detected_disease = "Unknown"
+
+    st.warning(
+        "No disease detected yet."
+    )
+
+# Quick Questions
+
+st.markdown("### Quick Questions")
+
+q1, q2 = st.columns(2)
+
+with q1:
+
+    if st.button("💊 How to treat?"):
+
+        question = (
+            "How can I treat this disease?"
+        )
+
+        answer = ask_ai_doctor(
+            detected_disease,
+            question
+        )
+
+        st.success(answer)
+
+with q2:
+
+    if st.button("🛡 Prevention Tips"):
+
+        question = (
+            "How can I prevent this disease?"
+        )
+
+        answer = ask_ai_doctor(
+            detected_disease,
+            question
+        )
+
+        st.success(answer)
+
+# Custom Question
+
+st.markdown("### Ask Your Own Question")
+
+user_question = st.text_input(
+    "Type your question..."
+)
+
+if st.button("🚀 Ask AI Doctor"):
+
+    if user_question.strip():
+
+        with st.spinner(
+            "AI Doctor is thinking..."
+        ):
+
+            answer = ask_ai_doctor(
+                detected_disease,
+                user_question
+            )
+
+        st.success(answer)
+
+    else:
+
+        st.warning(
+            "Please enter a question."
+        )
+
 
 
 # ----------------------------------------------------
