@@ -11,3 +11,4 @@ edge-tts
 fpdf
 matplotlib
 opencv-python-headless
+reportlab
