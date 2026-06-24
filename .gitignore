@@ -29,3 +29,33 @@ test.py
 
 # Streamlit secrets
 .streamlit/secrets.toml
+
+
+
+
+
+
+
+# IDE
+.idea/
+.vscode/
+
+# Cloud IDE
+.lightning_studio/
+.cursor-server/
+.vscode-server/
+.windsurf-server/
+
+# Python
+__pycache__/
+*.pyc
+
+# Audio
+*.mp3
+
+# Temp
+tem.py
+
+# Secrets
+.env
+.streamlit/secrets.toml
