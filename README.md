@@ -235,27 +235,42 @@ The model was trained on a plant disease image dataset containing **thousands of
 
 ### Disease Classes
 
-| Icon | Disease | Description |
-|------|---------|-------------|
-| 🍅 | Tomato Bacterial Spot | Small dark spots with yellow rings |
-| 🍅 | Tomato Late Blight | Water-soaked lesions turning brown/black |
-| 🍅 | Tomato Leaf Mold | Pale spots on top, grey mould beneath |
-| 🍅 | Tomato Septoria Leaf Spot | Small circular spots with dark brown borders |
-| 🍅 | Tomato Early Blight | Dark brown spots with concentric rings |
-| 🍎 | Apple Scab | Olive/black scabby patches on leaves |
-| ⚫ | Black Rot | Dark circular lesions, fruit rot |
-| 🌲 | Cedar Apple Rust | Bright orange spots on upper leaf surface |
-| 🌫️ | Powdery Mildew | White powdery coating on leaf surface |
-| 🌿 | Healthy Leaf | Normal healthy green leaf — no disease |
+| Icon | Disease                   | Description                                                      |
+| ---- | ------------------------- | ---------------------------------------------------------------- |
+| 🦠   | Tomato Bacterial Spot     | Small dark spots surrounded by yellow halos on leaves and fruits |
+| 🍂   | Tomato Late Blight        | Rapidly spreading brown or black lesions causing leaf decay      |
+| 🍃   | Tomato Leaf Mold          | Yellow spots on upper leaf surface with mold growth underneath   |
+| 🌿   | Tomato Septoria Leaf Spot | Small circular gray spots with dark borders on leaves            |
+| ✅    | Tomato Healthy            | Healthy tomato leaf with no visible disease symptoms             |
 
+## Dataset Distribution
+
+| Disease Class             | Images |
+| ------------------------- | -----: |
+| Tomato Bacterial Spot     |  2,127 |
+| Tomato Late Blight        |  1,909 |
+| Tomato Septoria Leaf Spot |  1,771 |
+| Tomato Healthy            |  1,591 |
+| Tomato Leaf Mold          |    952 |
+
+**Total Images:** 8,350
 ### Data Split Strategy
 
+The dataset was divided into three parts to ensure proper model training and evaluation.
+
+```text
+Total Dataset (8,350 Images)
+├── 80% → Training Set (~6,680 Images)
+├── 10% → Validation Set (~835 Images)
+└── 10% → Test Set (~835 Images)
 ```
-Total Dataset
-├── 80% → Training Set   (model learns from this)
-├── 10% → Validation Set (checks learning progress)
-└── 10% → Test Set       (final honest evaluation)
-```
+
+* **Training Set:** Used to train the Deep Learning model.
+* **Validation Set:** Used to monitor model performance and prevent overfitting during training.
+* **Test Set:** Used for final evaluation on unseen data to measure real-world performance.
+
+This split helps ensure that the model generalizes well and provides reliable predictions on new leaf images.
+
 
 > **Why split?** Splitting ensures the model is tested on images it has **never seen before**, giving a fair and honest performance score.
 
@@ -263,74 +278,60 @@ Total Dataset
 
 ## 🔬 Training Pipeline
 
-### Step-by-Step Training Process
+The Deep Learning model was trained using a structured pipeline to ensure accurate and reliable plant disease classification.
 
-**Step 1 — Load Dataset**
-```python
-dataset = ImageFolder("data/train", transform=transforms)
-loader  = DataLoader(dataset, batch_size=32, shuffle=True)
-```
+### Step 1 — Dataset Preparation
 
-**Step 2 — Image Preprocessing**
-```python
-transforms.Compose([
-    transforms.Resize((224, 224)),   # Resize all images to same size
-    transforms.ToTensor(),           # Convert to tensor
-    transforms.Normalize(            # Normalise pixel values
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )
-])
-```
+The dataset was organized into disease-specific categories and loaded using PyTorch's data handling utilities. Each image was assigned a corresponding class label for supervised learning.
 
-**Step 3 — Data Augmentation**
-```python
-transforms.Compose([
-    transforms.RandomHorizontalFlip(),   # Randomly flip images
-    transforms.RandomRotation(15),       # Random rotation ±15°
-    transforms.ColorJitter(              # Adjust brightness/contrast
-        brightness=0.3, contrast=0.3
-    )
-])
-```
-> Augmentation teaches the model to recognise diseases at different angles and lighting conditions.
+### Step 2 — Image Preprocessing
 
-**Step 4 — Training Loop**
-```python
-for epoch in range(num_epochs):
-    model.train()
-    for images, labels in train_loader:
-        optimizer.zero_grad()           # Clear previous gradients
-        outputs = model(images)         # Forward pass — make prediction
-        loss = criterion(outputs, labels) # Calculate how wrong we are
-        loss.backward()                  # Backpropagation
-        optimizer.step()                 # Update model weights
+Before training, all images were standardized through:
 
-    # Check on validation data each epoch
-    val_acc = evaluate(model, val_loader)
-    print(f"Epoch {epoch} | Val Accuracy: {val_acc:.2f}%")
+* Image resizing to a fixed resolution (224 × 224 pixels)
+* Tensor conversion for model compatibility
+* Pixel value normalization to improve training stability
 
-    # Save the best model
-    if val_acc > best_accuracy:
-        torch.save(model.state_dict(), "best_model.pth")
-        best_accuracy = val_acc
-```
+These preprocessing steps ensure that all images follow a consistent format.
 
-**Step 5 — Deploy for Prediction**
-```python
-model.load_state_dict(torch.load("best_model.pth"))
-model.eval()
+### Step 3 — Data Augmentation
 
-def predict_image(image):
-    tensor = preprocess(image).unsqueeze(0)
-    with torch.no_grad():
-        output = model(tensor)
-        prob   = torch.softmax(output, dim=1)
-        confidence, predicted = torch.max(prob, 1)
-    return class_names[predicted], round(confidence.item() * 100, 2)
-```
+To improve model generalization and reduce overfitting, several augmentation techniques were applied:
 
----
+* Horizontal flipping
+* Random rotation
+* Brightness and contrast adjustments
+
+This helps the model recognize plant diseases under different lighting conditions, viewing angles, and real-world environments.
+
+### Step 4 — Model Training
+
+The model was trained using supervised learning on labeled leaf images.
+
+During training:
+
+* Images were passed through the neural network
+* Prediction errors were calculated using a loss function
+* Backpropagation was applied to update model weights
+* Validation accuracy was monitored after each epoch
+* The best-performing model was automatically saved
+
+### Step 5 — Model Evaluation
+
+The trained model was evaluated on unseen validation images to measure its classification performance and ensure reliable disease detection.
+
+### Step 6 — Deployment
+
+After training, the best model was integrated into the TreeGuard AI application. Users can upload a leaf image, and the system performs:
+
+* Disease Classification
+* Confidence Analysis
+* Severity Assessment
+* Treatment Recommendation
+* AI-Based Plant Health Guidance
+
+This end-to-end pipeline enables real-time plant disease detection through a simple and user-friendly web interface.
+
 
 ## 🎛️ Fine-Tuning
 
@@ -354,120 +355,103 @@ scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
 > Too small LR → training is very slow  
 > Scheduler → adjusts it automatically 🎯
 
-#### 2️⃣ Early Stopping
-```python
-patience = 5        # Stop if no improvement for 5 epochs
-best_val_acc = 0
-no_improve_count = 0
+## 🎛️ Model Optimization & Fine-Tuning
 
-for epoch in range(100):
-    val_acc = evaluate(model, val_loader)
-    if val_acc > best_val_acc:
-        best_val_acc = val_acc
-        no_improve_count = 0
-        torch.save(model.state_dict(), "best_model.pth")
-    else:
-        no_improve_count += 1
-        if no_improve_count >= patience:
-            print("Early stopping triggered!")
-            break
-```
+Several optimization techniques were considered to improve model performance and training efficiency.
 
-#### 3️⃣ Transfer Learning
-```python
-# Load a pre-trained model (already knows shapes, textures, edges)
-model = torchvision.models.resnet50(pretrained=True)
+### Early Stopping
 
-# Freeze base layers — keep their knowledge
-for param in model.parameters():
-    param.requires_grad = False
+Validation performance was continuously monitored during training to identify the best-performing model and avoid unnecessary training once the model converged.
 
-# Only train the final classification layer for our diseases
-model.fc = nn.Linear(model.fc.in_features, num_classes)
-```
+### Transfer Learning
 
-> **Why Transfer Learning?**  
-> Instead of training from scratch on millions of images, we use a model that already understands image features — and only teach it the last step (disease classification). This is **faster, cheaper, and more accurate**.
+Pre-trained deep learning architectures can be used to leverage previously learned image features such as edges, textures, and patterns. This approach reduces training time and improves performance when working with limited datasets.
 
-#### 4️⃣ Weight Optimisation with Adam
-```python
-# Adam optimizer adapts learning rate for each weight individually
-optimizer = torch.optim.Adam(
-    model.parameters(),
-    lr=0.001,
-    weight_decay=1e-4  # L2 regularisation to prevent overfitting
-)
-```
+### Optimizer Selection
 
----
+The model was trained using modern optimization techniques to efficiently update network weights and minimize classification error. Proper learning rate selection and weight optimization contributed to stable convergence and improved accuracy.
+
+### Overfitting Prevention
+
+To improve generalization and robustness, the training process incorporated:
+
+* Data augmentation
+* Validation monitoring
+* Image normalization
+* Regularized training strategies
+
+These techniques helped the model achieve strong classification performance while maintaining reliable predictions on unseen plant leaf images.
+
 
 ## 📈 Model Performance
 
+The model was evaluated on unseen plant leaf images to measure its ability to correctly identify diseases in real-world scenarios
+
+### Current Status
+
+Performance evaluation is being continuously improved with additional testing and validation datasets. The model has demonstrated reliable disease classification across all supported tomato leaf disease categories.
+
+
+> Future versions will include detailed confusion matrices, class-wise accuracy, and additional evaluation metrics.
+
 Performance is measured on the **test set** — images the model has **never seen** during training.
+## 📈 Model Performance
 
-| Metric | Score | What It Means |
-|--------|-------|---------------|
-| ✅ **Accuracy** | `XX%` | Out of 100 images, how many were classified correctly |
-| 🎯 **Precision** | `XX%` | When model says "disease X", how often is it correct |
-| 🔍 **Recall** | `XX%` | Out of all actual disease cases, how many did model catch |
-| ⚖️ **F1 Score** | `XX%` | Balanced score combining Precision and Recall |
+The model was trained for 15 epochs using PyTorch and achieved strong classification performance on the validation dataset.
 
-> 📝 **Replace `XX%`** with your actual training results.  
-> A score above **85%** is considered excellent for multi-class plant disease detection.
+| Metric | Score |
+|---------|--------|
+| ✅ Training Accuracy | 93.80% |
+| 🎯 Best Validation Accuracy | 95.45% |
+| 📉 Final Training Loss | 0.2677 |
+| 📉 Final Validation Loss | 0.2269 |
+| 🔄 Epochs | 15 |
 
-### Confusion Matrix (Example)
+### Performance Summary
 
-```
-              Predicted
-              Healthy  Bacterial  Late Blight  Leaf Mold
-Actual  Healthy   [95]      [2]         [2]        [1]
-   Bacterial      [3]      [91]         [4]        [2]
-  Late Blight     [1]       [3]        [93]        [3]
-    Leaf Mold     [2]       [2]         [2]       [94]
-```
+- Achieved a best validation accuracy of **95.45%**
+- Demonstrated strong generalization across unseen validation images
+- Low validation loss indicates effective learning and reduced overfitting
+- Reliable performance across all supported tomato leaf disease classes
 
----
+### Supported Classes
+
+- Tomato Bacterial Spot
+- Tomato Late Blight
+- Tomato Leaf Mold
+- Tomato Septoria Leaf Spot
+- Tomato Healthy
+
 
 ## 📸 Screenshots
 
-### 🏠 Home Page — Upload & Detect
-> *(Add your screenshot: `assets/screenshots/home.png`)*
+### 🏠 Home Page
 
-```
-[ Screenshot Placeholder ]
-Upload leaf image → Click "Analyze Leaf" → Get instant results
-```
-
-### 🦠 Detection Result
-> *(Add your screenshot: `assets/screenshots/result.png`)*
-
-```
-[ Screenshot Placeholder ]
-Disease Name | Confidence % | Risk Level | Download PDF
-```
-
-### 🤖 AI Doctor Chat
-> *(Add your screenshot: `assets/screenshots/ai_doctor.png`)*
-
-```
-[ Screenshot Placeholder ]
-Ask any plant health question → Get AI-powered answers → Hear response as voice
-```
-
-### 📊 Analytics Dashboard
-> *(Add your screenshot: `assets/screenshots/analytics.png`)*
-
-```
-[ Screenshot Placeholder ]
-Total Scans | Healthy Rate | Disease Rate | Pie Chart | History
-```
-
-> 💡 **Tip:** Replace the placeholders above with:
-> ```markdown
-> ![Home Page](assets/screenshots/home.png)
-> ```
+![Home Page](screenshots/home.png)
 
 ---
+
+### 🤖 AI Plant Doctor
+
+![AI Doctor](screenshots/ai%20doctor.png)
+
+---
+
+### 💬 AI Chat Interface
+
+![AI Chat](screenshots/chat%20ai.png)
+
+---
+
+### 💬 Conversation Example
+
+![Chat Example](screenshots/chat%202.png)
+
+---
+
+### 📊 Analytics Dashboard
+
+![Dashboard](screenshots/desboard.png)
 
 ## 🚀 Installation
 
@@ -532,15 +516,19 @@ Open your browser at **`http://localhost:8501`** 🎉
 - [ ] 🔔 **Alert System** — Notify farmers when high-risk diseases are detected in their area
 
 ---
-
 ## 👨‍💻 Developer
 
 <div align="center">
 
-**Akash Kumar**  
-B.Tech Student | AI & Data Science Enthusiast
+# Akash Kumar
 
-[![GitHub](https://img.shields.io/badge/GitHub-akashkumar223570-181717?style=for-the-badge&logo=github)](https://github.com/akashkumar223570)
+### AI • Data Science • Machine Learning Enthusiast
+
+Passionate about building real-world AI solutions using Deep Learning, Computer Vision, Generative AI, and Data Analytics.
+
+🌳 Creator of **TreeGuard AI** — An AI-Powered Plant Disease Detection & Health Advisory System.
+
+[![GitHub](https://img.shields.io/badge/GitHub-akashkumar223570-181717?style=for-the-badge\&logo=github)](https://github.com/akashkumar223570)
 
 </div>
 
@@ -548,16 +536,22 @@ B.Tech Student | AI & Data Science Enthusiast
 
 ## 📜 License
 
-This project is developed for **educational and research purposes**.
+This project is released for **educational, research, and demonstration purposes**.
+
+Users are free to explore, learn from, and extend the project while providing appropriate attribution to the original author.
 
 ---
 
 <div align="center">
 
-Made with ❤️ using **Streamlit + PyTorch**
+# 🍃 TreeGuard AI
 
-🌿 Powered by **TreeGuard AI** · 🤖 LLM by **Groq + Llama 3.3** · 📄 Reports by **ReportLab**
+### Detect • Analyze • Protect
 
-⭐ If this project helped you, please give it a star on GitHub!
+Built with ❤️ using **Python, PyTorch, Streamlit, Groq, and Edge-TTS**
+
+⭐ If you found this project useful, consider giving it a star on GitHub.
+
+© 2026 Akash Kumar. All Rights Reserved.
 
 </div>
