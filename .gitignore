@@ -9,3 +9,23 @@ data/scan_history.json
 
 .venv/
 venv/
+
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment
+.env
+venv/
+.venv/
+
+# Audio files
+*.mp3
+
+# Temporary files
+tem.py
+test.py
+
+# Streamlit secrets
+.streamlit/secrets.toml
