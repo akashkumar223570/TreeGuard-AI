@@ -28,7 +28,7 @@ def create_pdf_report(
     elements = []
 
     title = Paragraph(
-        "🌳 TreeGuard AI Report",
+        " TreeGuard AI Report",
         styles["Title"]
     )
 

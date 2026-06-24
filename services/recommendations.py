@@ -2,10 +2,10 @@ recommendations = {
 
     "Tomato_Bacterial_spot": {
         "treatment":
-            "Apply copper-based bactericide and remove infected leaves.",
+            "Spray copper fungicide and remove infected leaves.",
 
         "prevention":
-            "Avoid overhead watering and maintain proper spacing.",
+            "Avoid watering leaves and keep proper spacing between plants.",
 
         "recovery":
             "2-3 weeks",
@@ -16,10 +16,10 @@ recommendations = {
 
     "Tomato_Late_blight": {
         "treatment":
-            "Apply fungicide immediately and remove infected plants.",
+            "Apply fungicide and remove infected plants immediately.",
 
         "prevention":
-            "Reduce moisture and improve air circulation.",
+            "Avoid excess moisture and improve air circulation.",
 
         "recovery":
             "3-4 weeks",
@@ -30,10 +30,10 @@ recommendations = {
 
     "Tomato_Leaf_Mold": {
         "treatment":
-            "Use fungicide and improve greenhouse ventilation.",
+            "Use fungicide and keep plants in a well-ventilated area.",
 
         "prevention":
-            "Avoid excess humidity and overcrowding.",
+            "Avoid high humidity and overcrowding.",
 
         "recovery":
             "2-3 weeks",
@@ -44,10 +44,10 @@ recommendations = {
 
     "Tomato_Septoria_leaf_spot": {
         "treatment":
-            "Apply chlorothalonil fungicide and remove infected leaves.",
+            "Remove infected leaves and spray fungicide.",
 
         "prevention":
-            "Use disease-free seeds and avoid splashing water.",
+            "Use healthy seeds and avoid wet leaves.",
 
         "recovery":
             "2-4 weeks",
@@ -58,13 +58,13 @@ recommendations = {
 
     "Tomato_healthy": {
         "treatment":
-            "No treatment required.",
+            "No treatment needed.",
 
         "prevention":
-            "Continue regular monitoring and care.",
+            "Continue regular care and monitoring.",
 
         "recovery":
-            "Healthy",
+            "Plant is healthy.",
 
         "severity":
             "Low"

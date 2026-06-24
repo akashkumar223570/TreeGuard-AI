@@ -1,22 +1,20 @@
-from gtts import gTTS
-import tempfile
 
+import edge_tts
+import asyncio
+import uuid
 
 def generate_voice(text):
 
-    tts = gTTS(
-        text=text,
-        lang="en"
-    )
+    filename = f"audio_{uuid.uuid4()}.mp3"
 
-    temp_file = tempfile.NamedTemporaryFile(
-        delete=False,
-        suffix=".mp3"
-    )
+    async def _speak():
+        communicate = edge_tts.Communicate(
+            text,
+            voice="en-IN-NeerjaNeural"
 
-    tts.save(
-        temp_file.name
-    )
+        )
+        await communicate.save(filename)
 
-    return temp_file.name
+    asyncio.run(_speak())
 
+    return filename

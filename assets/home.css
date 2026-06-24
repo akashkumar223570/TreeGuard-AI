@@ -1,0 +1,71 @@
+ /* Metric Cards */
+
+[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.95);
+
+    border: 1px solid #E5E7EB;
+
+    border-radius: 18px;
+
+    padding: 20px;
+
+    text-align: center;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+
+    transition: all 0.3s ease;
+}
+
+[data-testid="stMetric"]:hover {
+
+    transform: translateY(-4px);
+
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+/* Label */
+
+[data-testid="stMetricLabel"] {
+
+    justify-content: center;
+
+    color: #64748B;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+/* Value */
+
+[data-testid="stMetricValue"] {
+
+    justify-content: center;
+
+    color: #0F172A;
+
+    font-size: 32px;
+
+    font-weight: 700;
+}
+
+.stDownloadButton button {
+
+    width: 100%;
+
+    height: 60px;
+
+    border-radius: 14px;
+
+    background: linear-gradient(
+        135deg,
+        #44cd76,
+        #14B8A6
+    );
+
+    color: white;
+
+    font-weight: 600;
+
+    border: none;
+}

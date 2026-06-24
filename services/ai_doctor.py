@@ -1,91 +1,131 @@
+from groq import Groq
 import os
-import google.generativeai as genai
 
-API_KEY = os.getenv("GEMINI_API_KEY")
-
-genai.configure(
-    api_key=API_KEY
-)
-model = genai.GenerativeModel(
-    "gemini-2.5-flash"
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 
 def ask_ai_doctor(disease, question):
 
-    prompt = f"""
-You are TreeGuard AI Doctor 🌳, an expert plant pathologist and friendly agriculture assistant.
+    if question.startswith("/"):
 
-CURRENT DETECTED DISEASE:
-{disease}
+        clean_question = question[1:].strip()
 
-USER QUESTION:
-{question}
+        prompt = f"""
+    You are a helpful, intelligent, and friendly AI Assistant.
 
-YOUR TASK:
-Help farmers, students, gardeners, and plant owners understand plant diseases and plant health.
+    User Question:
+    {clean_question}
 
-RULES:
+    Instructions:
 
-1. Answer ONLY plant, crop, disease, pest, fertilizer, irrigation, and agriculture-related questions.
+    - Answer like ChatGPT.
+    - Answer ONLY in English.
+    - Use simple and easy language.
+    - Keep answers concise, clear, and practical.
+    - Use bullet points when useful.
+    - Give a short example if helpful.
+    - Avoid unnecessary long explanations.
+    - Do NOT behave like a plant doctor unless the user specifically asks about plants.
+    - Focus on directly answering the question.
 
-2. Always answer in:
-   - Simple Hindi 🇮🇳
-   - Simple English 🇬🇧
+    Format:
 
-3. Keep answers short and practical:
-   - Maximum 120 words
-   - Use bullet points
-   - Avoid unnecessary details
+    🇬🇧 Answer
 
-4. If the detected disease is available, use it in your answer.
+    (Your answer)
 
-5. For difficult scientific words provide:
+    📌 Example:
+    (If needed)
+    """
+    else:
 
-   Example:
+        prompt = f"""
+    You are TreeGuard AI Doctor, an expert plant health assistant.
 
-   Fungus
-   Meaning: Microorganism causing disease
-   Hindi: फफूंद
+    Detected Disease:
+    {disease}
 
-6. Always provide:
-   - Cause
-   - Symptoms
-   - Treatment
-   - Prevention
+    User Question:
+    {question}
 
-7. Use farmer-friendly language.
+    Instructions:
 
-8. Never give dangerous advice.
+    - First answer in English.
+    - Then provide the same answer in Hindi.
+    - Use very simple language.
+    - Keep answers short and practical.
+    - Use bullet points.
+    - Give treatment, prevention, and recovery advice when relevant.
+    - Suggest medicine if known.
+    - Suggest organic remedies when possible.
+    - Be farmer-friendly and beginner-friendly.
+    - Avoid difficult scientific terms.
+    - Always provide a small practical example.
+    - Keep response under 250 words.
 
-9. If the question is unrelated to agriculture, reply:
+    Format:
 
-   "I can only answer plant and agriculture related questions."
+    🌿 Disease:
+    {disease}
 
-RESPONSE FORMAT:
+    🇬🇧 English Answer
 
-🌿 Disease:
-Short explanation
+    • Point 1
+    • Point 2
+    • Point 3
 
-🔍 Cause:
-Hindi + English
+    📌 Example:
+    (Practical example)
 
-⚠ Symptoms:
-Short bullet points
+    -----------------------------------
 
-💊 Treatment:
-Practical treatment steps
+    🇮🇳 हिंदी उत्तर
 
-🛡 Prevention:
-Prevention tips
+    • बिंदु 1
+    • बिंदु 2
+    • बिंदु 3
 
-📘 Important Terms:
-Word → Meaning → Hindi Meaning
+    📌 उदाहरण:
+    (व्यावहारिक उदाहरण)
+    """
+    try:
 
-Keep the tone friendly, supportive, and easy to understand.
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": """
+You are TreeGuard AI Doctor and General AI Assistant.
+
+Rules:
+- Always be helpful.
+- Always answer in Hindi first and English second.
+- Use simple language.
+- Keep answers practical.
+- Be friendly and professional.
 """
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.5,
+            max_tokens=800
+        )
 
-    response = model.generate_content(prompt)
+        return response.choices[0].message.content
 
-    return response.text
+    except Exception as e:
 
+        return f"""
+❌ AI Doctor temporarily unavailable.
+
+Reason:
+{str(e)}
+
+Please try again later.
+"""

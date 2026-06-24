@@ -1,0 +1,201 @@
+
+.analytics-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    padding: 30px;
+    color: white;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.analytics-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.analytics-header p {
+    opacity: 0.9;
+    font-size: 16px;
+    margin: 0;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #e8edf2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.stat-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2d3748;
+    margin: 5px 0;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #718096;
+    font-weight: 500;
+}
+
+.stat-total {
+    border-top: 4px solid #667eea;
+}
+
+.stat-healthy {
+    border-top: 4px solid #48bb78;
+}
+
+.stat-diseased {
+    border-top: 4px solid #fc8181;
+}
+
+.chart-container {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e8edf2;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    margin: 15px 0;
+}
+
+.chart-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.scan-item {
+    background: white;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin: 8px 0;
+    border: 1px solid #e8edf2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.scan-item:hover {
+    transform: translateX(8px);
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.scan-disease {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.scan-disease-icon {
+    font-size: 24px;
+}
+
+.scan-disease-name {
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 16px;
+}
+
+.scan-confidence {
+    background: #f0f4f8;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.confidence-high {
+    color: #48bb78;
+    background: #f0fff4;
+}
+
+.confidence-medium {
+    color: #ed8936;
+    background: #fffaf0;
+}
+
+.confidence-low {
+    color: #fc8181;
+    background: #fff5f5;
+}
+
+.scan-time {
+    color: #a0aec0;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f7fafc;
+    border-radius: 16px;
+    border: 2px dashed #e2e8f0;
+}
+
+.empty-state-icon {
+    font-size: 64px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.empty-state-text {
+    color: #718096;
+    font-size: 16px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge-healthy {
+    background: #f0fff4;
+    color: #48bb78;
+}
+
+.badge-diseased {
+    background: #fff5f5;
+    color: #fc8181;
+}
+
+.divider-custom {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+    margin: 30px 0;
+    opacity: 0.3;
+}
