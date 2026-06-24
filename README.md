@@ -1,7 +1,6 @@
 <div align="center">
-
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&pause=1000&color=2D9E47&center=true&vCenter=true&width=600&lines=🍃+TreeGuard+AI;Plant+Disease+Detection;Powered+by+Deep+Learning" alt="Typing SVG" />
-
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=30&pause=1000&color=2D9E47&center=true&vCenter=true&width=700&lines=TreeGuard+AI;Plant+Disease+Detection;Powered+by+Deep+Learning" />
+</div>
 # 🍃 TreeGuard AI
 ### AI-Powered Plant Disease Detection & Health Advisory System
 
